@@ -1,29 +1,55 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import { Feather } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-native-reanimated';
+import ContactsScreen from './contacts';
+import HomeScreen from './index';
+import SideMenu from './SideMenu';
+import SecureX from './securex';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+const Tab = createBottomTabNavigator();
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
-
+export default function MainTabs() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#0F0F1A',
+          borderTopColor: 'transparent',
+        },
+        tabBarActiveTintColor: '#5A5AFD',
+        tabBarInactiveTintColor: '#aaa',
+        tabBarIcon: ({ color, size }) => {
+          let iconName: keyof typeof Feather.glyphMap = 'circle';
+
+          if (route.name === 'Home') iconName = 'home';
+          if (route.name === 'Settings') iconName = 'settings';
+
+          return <Feather name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Contacts" component={ContactsScreen} />
+      <Tab.Screen name="SideMenu" >
+        {()=><SideMenu visible={true} onClose={() => {}}/>}
+      </Tab.Screen>
+      <Tab.Screen name="SecureX" component={SecureX} />
+      {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+    </Tab.Navigator>
   );
 }
+
+const styles = {
+  screen: {
+    flex: 1,
+    backgroundColor: '#0F0F1A',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 18,
+  },
+};
