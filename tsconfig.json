@@ -13,6 +13,6 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "others/_layout0.js"  ]
+, "others/_layout0.js", "app/_layout.jsx", "app/+not-found.jsx", "constants/Colors.js", "components/ThemedText.jsx", "components/ThemedView.jsx", "hooks/useColorScheme.js", "hooks/useColorScheme.web.js", "hooks/useThemeColor.js"  ]
 }
 // "app/tabs/index.jsx",

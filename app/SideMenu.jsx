@@ -19,7 +19,7 @@ export default function SideMenu() {
   const [visible2, setMenuVisible] = useMenuVisible();
   const visible = true;
   // const visible=true;
-  const onClose=()=>{}
+  const onClose=()=>{router.back()}
   if (!visible) return null;
 
   return (
