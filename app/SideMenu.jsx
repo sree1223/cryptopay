@@ -1,15 +1,25 @@
 // SideMenu.js
 import React from 'react';
-import { useRouter } from 'expo-router';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-const router = useRouter();
+// const router = useRouter();
+import { router } from 'expo-router';
+import { useMenuVisible } from '../others/useMenuVisible';
+// const nav = useNavigation()
+
+
+
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const topItems = ['Home', 'Profile', 'Settings'];
 const bottomItems = ['Help', 'Log Out'];
 
-const SideMenu = ({ visible, onClose }) => {
+export default function SideMenu() {
+  // alert(useMenuVisible())
+  const [visible2, setMenuVisible] = useMenuVisible();
+  const visible = true;
+  // const visible=true;
+  const onClose=()=>{}
   if (!visible) return null;
 
   return (
@@ -26,7 +36,10 @@ const SideMenu = ({ visible, onClose }) => {
         {/* Top Section */}
         <View style={styles.section}>
           {topItems.map((item, index) => (
-            <TouchableOpacity key={index} style={styles.item}>
+            <TouchableOpacity key={index} style={styles.item} onPress={()=>{
+              // router.push('/Contacts');
+              router.push('/contacts');
+            }}>
               <Text style={styles.itemText}>{item}</Text>
             </TouchableOpacity>
           ))}
@@ -56,16 +69,18 @@ const SideMenu = ({ visible, onClose }) => {
   );
 };
 
-export default SideMenu;
+// export default SideMenu;
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+// alert(SCREEN_HEIGHT)
+
 const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    paddingBottom: 10,
-    backgroundColor: 'rgba(0,0,0,1)',
+    height: "100%",
+    paddingBottom: 0,
+    backgroundColor: 'rgba(0,0,0,0)',
     zIndex: 1000,
     elevation: 10, // For Android
   },

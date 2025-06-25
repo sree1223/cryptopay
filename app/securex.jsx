@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as SecureStore from 'expo-secure-store';
 
-export default function SecureDemoScreen() {
+export default function Secure() {
   const [data, setData] = useState(null);
 
   const storeSecret = async () => {

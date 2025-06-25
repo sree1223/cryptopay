@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons';
-import { Stack, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { router, Stack } from 'expo-router';
+import React from 'react';
 import {
   Alert,
   FlatList,
@@ -10,7 +10,10 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import SideMenu from './SideMenu';
+// import { router } from 'expo-router';
+import { useMenuVisible } from '../others/useMenuVisible';
+
+
 const walletAddress = '1A2b...3C4d';
 
 const coins = [
@@ -21,11 +24,18 @@ const coins = [
   { name: 'Ripple', symbol: 'XRP', balance: '0.00000000', usd: '$0.00', icon: 'activity' },
 ];
 
-const router = useRouter();
+// const router = useRouter();
 
 
 export default function App() {
-  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuVisible, setMenuVisible] = useMenuVisible();
+
+  // useEffect(()=>{
+  //   setTimeout(()=>{
+  //     router.push('/SideMenu');
+  //   },1000)
+  // },[])
+
   const copyAddress = () => {
     Alert.alert('Copied', `Wallet address: ${walletAddress}`);
   };
@@ -47,10 +57,10 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container} >
-      <SideMenu visible={menuVisible} onClose={() => setMenuVisible(false)} />
+      {/* <SideMenu visible={menuVisible} onClose={() => setMenuVisible(false)} /> */}
       <Stack.Screen options={{ title: 'Wallet', headerShown: false }} />
       <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => setMenuVisible(true)} style={styles.menuButton}>
+        <TouchableOpacity onPress={() => setMenuVisible(false)} style={styles.menuButton}>
           <Feather name="menu" size={32} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.title}>Web3 Pay 🪙</Text>
@@ -67,6 +77,7 @@ export default function App() {
       {/* Send / Receive Buttons */}
       <View style={styles.rowButtons}>
         <TouchableOpacity style={[styles.actionButton, styles.sendButton]} onPress={()=>{
+          // setMenuVisible(true);
           router.push({
             pathname: '/SideMenu',
             params: { name: 'Alice', age: 30 },

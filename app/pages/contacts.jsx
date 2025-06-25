@@ -1,17 +1,15 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  View,
+  Alert,
+  Clipboard,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Clipboard,
-  Alert,
+  View
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from 'expo-router';
 
 export default function Contacts() {
   const defaultContacts = [
@@ -126,43 +124,8 @@ export default function Contacts() {
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
-        <Text style={styles.title} onPress={()=>router.push('/got/contacts')}>Contacts</Text>
-        <View style={{ flexDirection: 'row', gap: 12 }}>
-          <TouchableOpacity onPress={() => setMode('form')}>
-            <Ionicons name="person-add" size={26} color="#a374d1" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setEditMode(!editMode)}>
-            <Ionicons name={editMode ? "close-circle" : "create-outline"} size={26} color="#a374d1" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={clearAll}>
-            <Ionicons name="trash-bin-outline" size={24} color="#a374d1" />
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.title} onPress={()=>router.push('/tabs/')}>Contacts</Text>
       </View>
-      {editMode && (
-        <Text style={{ color: '#a374d1', fontSize: 13, marginBottom: 8 }}>
-          Edit mode enabled. Tap contact to edit or delete.
-        </Text>
-      )}
-      <ScrollView contentContainerStyle={styles.scrollList}>
-        {contacts.map((c) => (
-          <View key={c.id} style={styles.contactCard}>
-            <TouchableOpacity
-              onPress={() => (editMode ? startEdit(c) : copy(c.evm || c.handle))}
-              style={{ flex: 1 }}
-            >
-              <Text style={styles.name}>{c.name}</Text>
-              {c.handle ? <Text style={styles.subtext}>{c.handle}</Text> : null}
-              {c.evm ? <Text style={styles.subtext}>{c.evm.slice(0, 6)}...{c.evm.slice(-4)}</Text> : null}
-            </TouchableOpacity>
-            {editMode && (
-              <TouchableOpacity onPress={() => deleteContact(c.id)}>
-                <Ionicons name="trash-outline" size={22} color="#fff" />
-              </TouchableOpacity>
-            )}
-          </View>
-        ))}
-      </ScrollView>
     </View>
   );
 }

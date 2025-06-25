@@ -1,55 +1,67 @@
-import { Feather } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import 'react-native-reanimated';
-import ContactsScreen from './contacts';
-import HomeScreen from './index';
-import SideMenu from './SideMenu';
-import SecureX from './securex';
+import { Stack, router, usePathname } from 'expo-router';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
+export default function Layout() {
+  const pathname = usePathname();
 
-const Tab = createBottomTabNavigator();
-
-export default function MainTabs() {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: '#0F0F1A',
-          borderTopColor: 'transparent',
-        },
-        tabBarActiveTintColor: '#5A5AFD',
-        tabBarInactiveTintColor: '#aaa',
-        tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof Feather.glyphMap = 'circle';
+    <View style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false,
+        animation: 'none', // 👈 disables transition animations
+      }} />
 
-          if (route.name === 'Home') iconName = 'home';
-          if (route.name === 'Settings') iconName = 'settings';
-
-          return <Feather name={iconName} size={size} color={color} />;
-        },
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Contacts" component={ContactsScreen} />
-      <Tab.Screen name="SideMenu" >
-        {()=><SideMenu visible={true} onClose={() => {}}/>}
-      </Tab.Screen>
-      <Tab.Screen name="SecureX" component={SecureX} />
-      {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
-    </Tab.Navigator>
+      {/* Bottom Bar */}
+      <View style={styles.tabBar}>
+        <TabButton
+          label="Home"
+          icon="home-outline"
+          active={pathname === '/'}
+          onPress={() => router.push('/')}
+        />
+        <TabButton
+          label="Contacts"
+          icon="people-outline"
+          active={pathname === '/contacts'}
+          onPress={() => router.push('/contacts')}
+        />
+        <TabButton
+          label="SecureX"
+          icon="lock-closed-outline"
+          active={pathname === '/securex'}
+          onPress={() => router.push('/securex')}
+        />
+      </View>
+    </View>
   );
 }
 
-const styles = {
-  screen: {
-    flex: 1,
-    backgroundColor: '#0F0F1A',
-    justifyContent: 'center',
+function TabButton({ label, icon, onPress, active }) {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.tabButton}>
+      <Ionicons name={icon} size={22} color={active ? '#a374d1' : '#aaa'} />
+      <Text style={[styles.label, active && { color: '#a374d1' }]}>{label}</Text>
+    </TouchableOpacity>
+  );
+}
+
+const styles = StyleSheet.create({
+  tabBar: {
+    height: 60,
+    flexDirection: 'row',
+    backgroundColor: '#0a0618',
+    borderTopWidth: 0.5,
+    borderTopColor: '#333',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingBottom: 5,
+  },
+  tabButton: {
     alignItems: 'center',
   },
-  text: {
-    color: '#fff',
-    fontSize: 18,
+  label: {
+    color: '#aaa',
+    fontSize: 11,
+    marginTop: 2,
   },
-};
+});
