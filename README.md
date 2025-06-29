@@ -1,50 +1,146 @@
-# Welcome to your Expo app 👋
+# 🔐 Secure Contacts Wallet (React Native + Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern crypto contact wallet built with **React Native**, **Expo**, and `expo-router`.  
+Designed to help manage EVM wallet addresses and ENS-style handles locally — with optional biometric protection.
+Fully open-source to build APK your self
 
-## Get started
+---
 
-1. Install dependencies
+## 📱 Project Purpose
 
-   ```bash
-   npm install
-   ```
+- Provides a easy to go setup for further Crypto Android Apps
+- Create a Fully Safe Multi-Sig Wallet App with push notifications
+- Fast, Clean UI, Safeset as Multi-Sig
+- Maintain an offline contact book for wallet addresses and ENS-style names  
+- Support both direct **EVM addresses** and **custom domain handles**  
+- Persist data locally, securely — without needing internet or wallet connection  
+- Allow optional biometric unlock (Android)  
+- Designed for crypto teams, users, or multi-sig wallet members
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 📦 Getting Started
 
-In the output, you'll find options to open the app in a
+### 1. Install dependencies
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+    npm install
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 2. Run the Expo Dev Server
 
-## Get a fresh project
+    npx expo start
 
-When you're ready, run:
+> You can use **Expo Go** on Android, or launch via Android Emulator.
 
-```bash
-npm run reset-project
+---
+
+## 🏗 Android: Build APK Locally (Gradle)
+
+This project supports full offline APK builds using the native Android toolchain (Gradle).
+
+### 1. ✅ Configure Architectures
+
+In your `android/gradle.properties` file, ensure the following line exists:
+
+    reactNativeArchitectures=armeabi-v7a,x86,arm64-v8a,x86_64
+
+You can customize this list to reduce APK size (e.g. just `armeabi-v7a` for most devices / 'x86_64' for some emulators).
+
+### 2. APK Split by Architecture (Optional Optimization)
+
+In your `android/app/build.gradle`, you'll find:
+
+```gradle
+splits {
+  abi {
+    enable true
+    reset()
+    include "armeabi-v7a" // You can add any architecture as below
+    // include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+    universalApk false  // Set to true to generate a single APK for all ABIs
+  }
+}
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 3. 🧱 Build APK
 
-## Learn more
+From your project root:
 
-To learn more about developing your project with Expo, look at the following resources:
+    cd android
+    ./gradlew assembleRelease
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+After the build completes, your APK will be located at:
 
-## Join the community
+    android/app/build/outputs/apk/release/app-release.apk
 
-Join our community of developers creating universal apps.
+You can now install it on a physical Android device or emulator.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## ☁️ Cloud Build with EAS
+
+Build your APK using Expo’s cloud service:
+
+    eas build --platform android
+
+Optional: Inspect bundle output:
+
+    eas build:inspect --platform android --stage archive --output inspect.json
+
+> See: [EAS Build Docs](https://docs.expo.dev/build/introduction)
+
+---
+
+## 🔐 Secure Storage & Biometrics
+
+This app includes a secure storage demo:
+
+- Uses `expo-local-authentication` for biometric unlock (face/fingerprint)
+- Uses `expo-secure-store` to securely store secrets (encrypted via Android Keystore)
+
+💡 Live example is in: `app/Secure.tsx`
+
+⚠️ Note: Demo stores the decrypted secret in a React `useState()` variable — avoid this pattern for production wallets.
+
+---
+
+## 📁 Where Data is Stored
+
+- Contacts → `AsyncStorage` (`@react-native-async-storage/async-storage`)
+- Secrets → `expo-secure-store` (Keystore-backed encryption)
+- Debug APKs → `android/app/build/outputs/apk/release/app-release.apk`
+- Temporary cache → `.expo/`, `.expo-router/`, `node_modules/`
+
+---
+
+## 🧩 Core Libraries Used
+
+- **expo-router** — file-based routing
+- **expo-local-authentication** — Android biometric auth
+- **expo-secure-store** — encrypted key-value storage
+- **@react-native-async-storage/async-storage** — persistent local storage
+- **react-native-keychain** — optional native-level secure key management
+- **expo-dev-client** — supports native modules during development
+
+---
+
+## 📬 Helpful Docs
+
+- https://docs.expo.dev
+- https://docs.expo.dev/eas/credentials/overview/
+- https://reactnative.dev/docs/environment-setup
+- https://docs.expo.dev/versions/latest/sdk/securestore/
+- https://docs.expo.dev/versions/latest/sdk/local-authentication/
+
+---
+
+## ✨ Author
+
+Built with 💜 by [@dheram](https://github.com/dheram)  
+→ https://dheram.com  
+→ https://blog.dheram.com
+
+---
+
+## 🔓 License
+
+MIT — use, fork, remix freely.

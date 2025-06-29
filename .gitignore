@@ -1,39 +1,77 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# Learn more: https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# dependencies
+# === Node.js & Dependencies ===
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Expo
+# === Expo ===
 .expo/
+.expo-shared/
+*.expo
 dist/
 web-build/
 expo-env.d.ts
+.expo-router/*
+.cache/
 
-# Native
-.kotlin/
-*.orig.*
+# === Android ===
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/debug.keystore
+
+# === iOS (if used later) ===
+ios/Pods/
+ios/build/
+*.xcodeproj/
+*.xcworkspace/
+*.xcuserdata/
+*.pbxuser
+
+# === Secrets & Signing ===
 *.jks
+*.keystore
 *.p8
 *.p12
+*.pem
 *.key
 *.mobileprovision
 
-# Metro
+# === Metro ===
 .metro-health-check*
 
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
+# === TypeScript / JS Tools ===
+*.tsbuildinfo
+.eslintcache
 
-# macOS
-.DS_Store
-*.pem
-
-# local env files
+# === Environment Variables ===
+.env
+.env.* 
 .env*.local
 
-# typescript
-*.tsbuildinfo
+# === macOS ===
+.DS_Store
 
-app-example
+# === Editors & IDEs ===
+.vscode/
+.idea/
+
+# === Build Artifacts ===
+*.apk
+*.aab
+*.ipa
+*.tar.gz
+
+# === Logs ===
+*.log
+
+# === Tests & Coverage ===
+coverage/
+
+# === Example or unused app folders ===
+app2/
+others/

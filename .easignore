@@ -1,0 +1,20 @@
+# Ignore typical dev/build artifacts
+node_modules
+android
+ios
+.git
+*.log
+*.lock
+web-build
+dist
+build
+.env.local
+.env.*
+*.iml
+*.apk
+*.aab
+
+# Cache
+.cache
+.expo
+.expo-shared
