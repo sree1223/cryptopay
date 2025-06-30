@@ -6,7 +6,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
+package-lock.json
 # === Expo ===
 .expo/
 .expo-shared/
@@ -75,3 +75,5 @@ coverage/
 # === Example or unused app folders ===
 app2/
 others/
+
+

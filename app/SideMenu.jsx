@@ -3,7 +3,8 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // const router = useRouter();
 import { router } from 'expo-router';
-import { useMenuVisible } from '../others/useMenuVisible';
+import { useMenuVisible } from '../hooks/globalStates';
+import { useGlobalStates } from '../hooks/globalStates';
 // const nav = useNavigation()
 
 
@@ -16,7 +17,7 @@ const bottomItems = ['Help', 'Log Out'];
 
 export default function SideMenu() {
   // alert(useMenuVisible())
-  const [visible2, setMenuVisible] = useMenuVisible();
+  const [menuVisible, setMenuVisible] = useGlobalStates();
   const visible = true;
   // const visible=true;
   const onClose=()=>{router.back()}

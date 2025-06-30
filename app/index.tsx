@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 // import { router } from 'expo-router';
-import { useMenuVisible } from '../hooks/useMenuVisible';
+import { useGlobalStates } from '../hooks/globalStates';
 
 
 const walletAddress = '1A2b...3C4d';
@@ -28,7 +28,8 @@ const coins = [
 
 
 export default function App() {
-  const [menuVisible, setMenuVisible] = useMenuVisible();
+  const {menuVisible, setMenuVisible} = useGlobalStates();
+  // alert(JSON.stringify(MenuProvider.visible))
 
   // useEffect(()=>{
   //   setTimeout(()=>{
@@ -62,10 +63,12 @@ export default function App() {
       <View style={styles.headerRow}>
         <TouchableOpacity  style={styles.menuButton} onPress={()=>{
           // setMenuVisible(true);
-          router.push({
-            pathname: '/SideMenu',
-            params: { name: 'Alice', age: 30 },
-          });
+          // router.push({
+          //   pathname: '/SideMenu',
+          //   params: { name: 'Alice', age: 30 },
+          // });
+          setMenuVisible(true)
+          // alert(true)
         }}>
           <Feather name="menu" size={32} color="#fff" />
         </TouchableOpacity>
@@ -85,14 +88,22 @@ export default function App() {
         <TouchableOpacity style={[styles.actionButton, styles.sendButton]} onPress={()=>{
           // setMenuVisible(true);
           router.push({
-            pathname: '/SideMenu',
-            params: { name: 'Alice', age: 30 },
-          });
+            pathname: '/send',
+          })
+          //   params: { name: 'Alice', age: 30 },
+          // });
         }} >
           <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.actionButton, styles.receiveButton]}>
-          <Text style={styles.buttonText}>Receive</Text>
+          <Text style={styles.buttonText} onPress={()=>{
+          // setMenuVisible(true);
+          router.push({
+            pathname: '/receive',
+          })
+          //   params: { name: 'Alice', age: 30 },
+          // });
+        }}>Receive</Text>
         </TouchableOpacity>
       </View>
 
