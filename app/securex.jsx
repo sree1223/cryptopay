@@ -1,6 +1,6 @@
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as SecureStore from 'expo-secure-store';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as KeyChain from 'react-native-keychain';
 
@@ -9,22 +9,43 @@ export default function Secure() {
 
   const storeSecret = async () => {
     await SecureStore.setItemAsync('secretData', 'my_secret_token_123');
-    Alert.alert('Stored', 'Secret has been saved securely.');
-  };
-  useEffect(async()=>{
     try{
-      await KeyChain.setGenericPassword("username","password",{accessible:KeyChain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY});
-      KeyChain.setGenericPassword
-      alert((await KeyChain.getGenericPassword()).username.toString());
+      await KeyChain.setGenericPassword("username","password"
+        // {
+        //   accessible:KeyChain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+        //   securityLevel:KeyChain.SECURITY_LEVEL.SECURE_HARDWARE,
+        //   storage:KeyChain.STORAGE_TYPE.RSA,
+        //   authenticationPrompt: {
+        //     "title": "Authenticate to retrieve secret",
+        //     "cancel": "Cancel"
+        //   }
+        // }
+      );
     }catch(e){
       alert(e);
     }
-  })
+    // Alert.alert('Stored', 'Secret has been saved securely.');
+  };
+  // useEffect(()=>{
+  //   (async()=>{
+  //   try{
+  //     await KeyChain.setGenericPassword("username","password",{accessible:KeyChain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY});
+  //     // KeyChain.setGenericPassword
+  //     alert((await KeyChain.getGenericPassword()).username.toString());
+  //   }catch(e){
+  //     alert(e);
+  //   }})()
+  // })
 
   const unlockAndRead = async () => {
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
     const supported = await LocalAuthentication.supportedAuthenticationTypesAsync();
     const enrolled = await LocalAuthentication.isEnrolledAsync();
+    try{
+      console.log(await (await KeyChain.getGenericPassword()).username.toString())
+    }catch(e){
+      alert(e);
+    }
 
     if (!hasHardware || !enrolled) {
       Alert.alert('Error', 'Biometric authentication is not available.');

@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Alert,
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import * as ImagePicker from 'expo-image-picker';
-import * as BarCodeScanner from 'expo-barcode-scanner';
+import { useEffect, useState } from 'react';
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+//import * as BarCodeScanner from 'expo-barcode-scanner';
+// import { Camera, useCameraPermissions } from 'expo-camera';
 
 export default function SendScreen() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,8 +34,8 @@ export default function SendScreen() {
 
     // Request camera permission
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      //const { status } = await BarCodeScanner.requestPermissionsAsync();
+      //setHasPermission(status === 'granted');
     })();
   }, []);
 
@@ -56,7 +56,7 @@ export default function SendScreen() {
   const handleQRScan = async () => {
     if (hasPermission === false) {
       Alert.alert('Permission required', 'Camera access is needed to scan QR codes');
-      return;
+      //return;
     }
 
     router.push({
@@ -82,8 +82,7 @@ export default function SendScreen() {
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
-        <Text style={styles.title}>Send Crypto</Text>
-        <View style={{ width: 24 }} /> {/* Spacer for alignment */}
+        <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' ,width:"100%",paddingLeft:40}}>Send Crypto</Text>
       </View>
 
       {/* Search Bar */}

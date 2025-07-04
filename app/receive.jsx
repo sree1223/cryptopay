@@ -1,27 +1,33 @@
 // File: receive.jsx
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Alert,
-  Share,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import QRCode from 'react-native-qrcode-svg';
+import { BlurView } from 'expo-blur';
 import * as Clipboard from 'expo-clipboard';
 import { router } from 'expo-router';
-import { BlurView } from 'expo-blur';
+import React, { useEffect, useState } from 'react';
+import {
+  Alert,
+  Dimensions,
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default function ReceiveScreen() {
   const [showFullAddress, setShowFullAddress] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [uo,setuo]=useState(false);
+
+  // useEffect(()=>{
+  //   setTimeout(() => {
+  //     setuo(true);
+  //   }, 3000);
+  // },[])
   
   // User information - in a real app this would come from context or storage
   const userInfo = {
@@ -50,7 +56,6 @@ export default function ReceiveScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
     <View style={styles.inner}>
       {/* Header */}
       <View style={styles.header}>
@@ -61,6 +66,7 @@ export default function ReceiveScreen() {
         <View style={{ width: 24 }} />
       </View>
 
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
       {/* Card Container */}
       <View style={styles.card}>
         {/* Profile Info */}
@@ -77,7 +83,7 @@ export default function ReceiveScreen() {
         {/* QR Code */}
         <View style={styles.qrContainer}>
           <QRCode 
-            value={userInfo.evmAddress}
+            value={userInfo.evmAddress || '0x0'}
             size={SCREEN_WIDTH * 0.5}
             backgroundColor="#fff"
             color="#0a0618"
@@ -148,8 +154,8 @@ export default function ReceiveScreen() {
           Only send assets to this address on the Ethereum network
         </Text>
       </BlurView>
-    </View>
     </ScrollView>
+    </View>
   );
 }
 
@@ -157,17 +163,25 @@ const styles = StyleSheet.create({
     scrollContainer: {
       flexGrow: 1,
       padding: 16,
+      paddingTop: 40
     },
     inner: {
       flex: 1,
       alignItems: 'center',
+      paddingTop:50,
+      backgroundColor:"#000",
     },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginBottom: 20,
+    marginTop: 40,
+    position:"absolute",
+    top:0,
+    zIndex:1,
+    paddingHorizontal:30,
+    backgroundColor:"#000",
   },
   title: {
     color: '#fff',
@@ -267,7 +281,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    gap: 15,
+    // gap: 15,
   },
   actionButton: {
     flex: 1,
@@ -310,7 +324,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 12,
     borderRadius: 12,
-    gap: 8,
+    // gap: 8,
   },
   tipText: {
     color: '#4ade80',

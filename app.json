@@ -35,7 +35,9 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "react-native-vision-camera",
+      "expo-camera"
     ],
     "experiments": {
       "typedRoutes": true
