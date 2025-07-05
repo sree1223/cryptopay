@@ -5,6 +5,7 @@ import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 
 import { useGlobalStates } from '../hooks/globalStates';
 // import Wrapper from './_layout';
 import { BlurView } from 'expo-blur';
+import TransactionSigner from './TransactionSigner';
 
 // </BlurView>
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -26,28 +27,31 @@ export default function Layout() {
   // <Wrapper>
   // <AppProvider>
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, overflow:"scroll" }}>
       <BlurView
-  intensity={50}
-  tint="dark"
-  // style={{
-  //   position: 'absolute',
-  //   width: screen_width,
-  //   height: screen_height,
-  //   zIndex: 90,
-  // }}
- onPress={()=>{setMenuVisible(false)}} style={{display:menuVisible?"flex":"none",width:menuVisible?screen_width:0,height:screen_height,elevated: 9999999,zIndex:9999999,position:"absolute",left:"0",backgroundColor:"#000a"}}>
- <Pressable onPress={()=>{setMenuVisible(false)}} style={{width:menuVisible?screen_width:0,height:screen_height ,position:"absolute",left:"0",backgroundColor:""}}>
-        <View onPress={()=>{setMenuVisible(false)}} style={{width:menuVisible?300:0,height:screen_height ,zIndex:100,elevated: 100,position:"absolute",left:"0",backgroundColor:"#fff"}}>
-    {/* Menu */}
-    <Text>Menu</Text>
-        </View>
-        </Pressable>
+        intensity={50}
+        tint="dark"
+        // style={{
+        //   position: 'absolute',
+        //   width: screen_width,
+        //   height: screen_height,
+        //   zIndex: 90,
+        // }}
+        onPress={()=>{setMenuVisible(false)}} style={{display:menuVisible?"flex":"none",width:menuVisible?screen_width:0,height:screen_height-10,elevated: 10,zIndex:10,position:"absolute",left:"0",backgroundColor:"#fff3"}}>
+          <Pressable onPress={()=>{setMenuVisible(false)}} style={{width:menuVisible?screen_width:0,height:screen_height ,position:"absolute",left:"0",backgroundColor:""}}>
+          </Pressable>
+          <View onPress={()=>{e.preventDefault();setMenuVisible(true)}} style={{padding:10,paddingTop:60,width:menuVisible?300:0,height:screen_height-10 ,zIndex:100,elevated: 100,position:"absolute",left:"0",backgroundColor:"#222"}}>
+            <Text style={{color:"white",paddingLeft:30,fontSize:30}}>Menu</Text>
+          </View>
       </BlurView>
     {/* <SafeAreaView styles={styles.safe}> */}
+    {/* <ScrollView contentContainerStyle={{ flexGrow: 1}}> */}
+
     <Stack screenOptions={{ headerShown: false,
-        animation: 'none', // 👈 disables transition animations
+        animation: 'none',
       }} />
+      <TransactionSigner />
+      {/* </ScrollView> */}
     {/* </SafeAreaView> */}
 
       {/* Bottom Bar */}
